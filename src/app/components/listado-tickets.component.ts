@@ -45,10 +45,10 @@ export class ListadoTicketsComponent {
 
   eliminar(id: number) {
     if (confirm('¿Eliminar este ticket?')) {
-      this.ticketService.deleteTicket(id).subscribe({
-        next: () => this.ticketEliminado.emit(),
-        error: (err) => console.error('Error al eliminar:', err)
-      });
+      this.ticketService.deleteTicket(id).subscribe(
+        () => this.ticketEliminado.emit(),
+        (err) => console.error('Error al eliminar:', err)
+      );
     }
   }
 }

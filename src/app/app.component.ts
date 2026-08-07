@@ -26,9 +26,9 @@ export class AppComponent implements OnInit {
   }
 
   cargarTickets() {
-    this.ticketService.getTickets().subscribe({
-      next: (data) => this.tickets = data,
-      error: (err) => console.error('Error al cargar tickets:', err)
-    });
+    this.ticketService.getTickets().subscribe(
+      (data) => this.tickets = data,
+      (err) => console.error('Error al cargar tickets:', err)
+    );
   }
 }
