@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class TicketService {
-  private apiUrl = 'URL_DE_TU_API_NODEJS'; // Reemplazar con la URL real de Node.js / Express
+  private apiUrl = 'https://helpdesk-backend-api2.onrender.com'; // Reemplazar con la URL real de Node.js / Express
 
   constructor(private http: HttpClient) {}
 
