@@ -1,12 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { TicketService } from '../ticket.service';
 
 @Component({
   selector: 'app-registro-incidente',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   template: `
     <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; border: 1px solid #cbd5e1;">
       <h3>📝 Reportar Nuevo Incidente</h3>
@@ -42,7 +38,7 @@ export class RegistroIncidenteComponent {
     descripcion: '',
     categoria: 'Redes',
     prioridad: 'Media',
-    usuario_id: 5 // Usamos un ID de usuario registrado en la BD
+    usuario_id: 5
   };
 
   constructor(private ticketService: TicketService) {}
@@ -52,9 +48,9 @@ export class RegistroIncidenteComponent {
       next: () => {
         alert('Ticket registrado con éxito');
         this.nuevoTicket = { titulo: '', descripcion: '', categoria: 'Redes', prioridad: 'Media', usuario_id: 1 };
-        this.ticketCreado.emit(); // Notifica para recargar el listado
+        this.ticketCreado.emit();
       },
-      error: (err) => console.error('Error al crear ticket:', err)
+      nextError: (err) => console.error('Error al crear ticket:', err)
     });
   }
 }

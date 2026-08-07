@@ -1,11 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TicketService } from '../ticket.service';
 
 @Component({
   selector: 'app-listado-tickets',
-  standalone: true,
-  imports: [CommonModule],
   template: `
     <div style="background: #ffffff; padding: 1.5rem; border-radius: 8px; border: 1px solid #cbd5e1;">
       <h3>📋 Listado de Incidentes</h3>

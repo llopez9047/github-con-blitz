@@ -1,19 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TicketService } from './ticket.service';
-import { NavegacionComponent } from './components/navegacion.component';
-import { DashboardComponent } from './components/dashboard.component';
-import { RegistroIncidenteComponent } from './components/registro-incidente.component';
-import { ListadoTicketsComponent } from './components/listado-tickets.component';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [
-    NavegacionComponent,
-    DashboardComponent,
-    RegistroIncidenteComponent,
-    ListadoTicketsComponent
-  ],
   template: `
     <app-navegacion></app-navegacion>
 

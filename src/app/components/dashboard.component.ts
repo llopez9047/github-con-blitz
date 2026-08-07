@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
   template: `
     <div style="display: flex; gap: 1rem; margin: 1.5rem 0;">
       <div style="background: #e2e8f0; padding: 1rem; border-radius: 8px; flex: 1; text-align: center;">
