@@ -44,13 +44,13 @@ export class RegistroIncidenteComponent {
   constructor(private ticketService: TicketService) {}
 
   guardarTicket() {
-    this.ticketService.createTicket(this.nuevoTicket).subscribe({
-      next: () => {
+    this.ticketService.createTicket(this.nuevoTicket).subscribe(
+      () => {
         alert('Ticket registrado con éxito');
-        this.nuevoTicket = { titulo: '', descripcion: '', categoria: 'Redes', prioridad: 'Media', usuario_id: 1 };
+        this.nuevoTicket = { titulo: '', descripcion: '', categoria: 'Redes', prioridad: 'Media', usuario_id: 5 };
         this.ticketCreado.emit();
       },
-      nextError: (err) => console.error('Error al crear ticket:', err)
-    });
+      (err) => console.error('Error al crear ticket:', err)
+    );
   }
 }
