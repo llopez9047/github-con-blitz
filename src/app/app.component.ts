@@ -1,0 +1,45 @@
+import { Component, OnInit } from '@angular/core';
+import { TicketService } from './ticket.service';
+import { NavegacionComponent } from './components/navegacion.component';
+import { DashboardComponent } from './components/dashboard.component';
+import { RegistroIncidenteComponent } from './components/registro-incidente.component';
+import { ListadoTicketsComponent } from './components/listado-tickets.component';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    NavegacionComponent,
+    DashboardComponent,
+    RegistroIncidenteComponent,
+    ListadoTicketsComponent
+  ],
+  template: `
+    <app-navegacion></app-navegacion>
+
+    <div style="max-width: 1100px; margin: 0 auto; padding: 1rem;">
+      <app-dashboard [total]="tickets.length" [pendientes]="tickets.length"></app-dashboard>
+
+      <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 1.5rem; margin-top: 1rem;">
+        <app-registro-incidente (ticketCreado)="cargarTickets()"></app-registro-incidente>
+        <app-listado-tickets [tickets]="tickets" (ticketEliminado)="cargarTickets()"></app-listado-tickets>
+      </div>
+    </div>
+  `
+})
+export class AppComponent implements OnInit {
+  tickets: any[] = [];
+
+  constructor(private ticketService: TicketService) {}
+
+  ngOnInit() {
+    this.cargarTickets();
+  }
+
+  cargarTickets() {
+    this.ticketService.getTickets().subscribe({
+      next: (data) => this.tickets = data,
+      error: (err) => console.error('Error al cargar tickets:', err)
+    });
+  }
+}
