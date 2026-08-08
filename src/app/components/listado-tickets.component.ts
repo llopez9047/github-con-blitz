@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TicketService } from '../ticket.service';
 
 @Component({
@@ -53,13 +53,16 @@ import { TicketService } from '../ticket.service';
   `
 })
 export class ListadoTicketsComponent implements OnInit {
-  tickets: any[] = [];
+  @Input() tickets: any[] = [];
+  @Output() ticketEliminado = new EventEmitter<void>();
   busquedaId: number;
 
   constructor(private ticketService: TicketService) {}
 
   ngOnInit() {
-    this.cargarTickets();
+    if (!this.tickets || this.tickets.length === 0) {
+      this.cargarTickets();
+    }
   }
 
   cargarTickets() {
@@ -68,6 +71,18 @@ export class ListadoTicketsComponent implements OnInit {
       (data) => this.tickets = data,
       (err) => console.error('Error al cargar tickets:', err)
     );
+  }
+
+  eliminar(id: number) {
+    if (confirm('¿Eliminar este ticket definitivamente?')) {
+      this.ticketService.deleteTicket(id).subscribe(
+        () => {
+          this.cargarTickets();
+          this.ticketEliminado.emit(); // Emite el evento al padre
+        },
+        (err) => console.error('Error al eliminar:', err)
+      );
+    }
   }
 
   buscarPorId() {
@@ -87,14 +102,5 @@ export class ListadoTicketsComponent implements OnInit {
       },
       (err) => console.error('Error al actualizar estado:', err)
     );
-  }
-
-  eliminar(id: number) {
-    if (confirm('¿Eliminar este ticket definitivamente?')) {
-      this.ticketService.deleteTicket(id).subscribe(
-        () => this.cargarTickets(),
-        (err) => console.error('Error al eliminar:', err)
-      );
-    }
   }
 }

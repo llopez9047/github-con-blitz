@@ -17,6 +17,9 @@ import { TicketService } from './ticket.service';
           <app-listado-tickets [tickets]="tickets" (ticketEliminado)="cargarTickets()"></app-listado-tickets>
         </div>
       </div>
+      <div style="margin-top: 2rem;">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   `
 })
