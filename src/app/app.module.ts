@@ -12,6 +12,7 @@ import { ListadoTicketsComponent } from './components/listado-tickets.component'
 import { ListadoUsuariosComponent } from './components/listado-usuarios.component';
 import { LoginComponent } from './components/login.component';
 import { TicketService } from './ticket.service';
+import { UsuarioService } from './usuario.service';
 import { AuthService } from './auth.service';
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'tickets', component: ListadoTicketsComponent },
   { path: 'nuevo-incidente', component: RegistroIncidenteComponent },
-  { path: 'usuarios', component: ListadoUsuariosComponent }
+  { path: 'usuarios', component: ListadoUsuariosComponent },
+  { path: '**', redirectTo: 'tickets' }
 ];
 
 @NgModule({
