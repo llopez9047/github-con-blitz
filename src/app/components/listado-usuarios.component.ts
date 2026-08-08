@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuarioService } from '../usuario.service'; // Ajusta la ruta si es necesario
+import { UsuarioService } from '../usuario.service'; 
 
 @Component({
   selector: 'app-listado-usuarios',
