@@ -36,10 +36,8 @@ export class LoginComponent {
   onLogin() {
     this.ticketService.login(this.credenciales).subscribe(
       (res) => {
-        // Ejemplo de respuesta del servidor: { ok: true, usuario: { id: 12, nombre: 'Lauro López', email: '...' } }
         const usuarioLogeado = res.usuario || res; 
         
-        // Guardamos temporalmente el usuario en localStorage
         this.authService.setUsuario(usuarioLogeado);
 
         alert(`Bienvenido, ${usuarioLogeado.nombre || 'al sistema'}`);

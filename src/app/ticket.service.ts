@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class TicketService {
-  // Cambia la URL por la de tu servidor backend en Render
   private apiUrl = 'https://helpdesk-backend-api2.onrender.com'; 
 
   constructor(private http: HttpClient) {}
