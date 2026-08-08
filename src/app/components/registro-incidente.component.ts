@@ -1,11 +1,16 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TicketService } from '../ticket.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-registro-incidente',
   template: `
     <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; border: 1px solid #cbd5e1;">
       <h3>📝 Reportar Nuevo Incidente</h3>
+      <p style="font-size: 0.85rem; color: #475569;">
+        Reportando como: <strong>{{ nombreUsuario }}</strong> (ID: {{ nuevoTicket.usuario_id }})
+      </p>
+
       <form (ngSubmit)="guardarTicket()">
         <div style="margin-bottom: 0.8rem;">
           <label>Título del Incidente:</label><br>
@@ -30,24 +35,48 @@ import { TicketService } from '../ticket.service';
     </div>
   `
 })
-export class RegistroIncidenteComponent {
+export class RegistroIncidenteComponent implements OnInit {
   @Output() ticketCreado = new EventEmitter<void>();
 
+  nombreUsuario = 'Sin Autenticar';
   nuevoTicket = {
     titulo: '',
     descripcion: '',
     categoria: 'Redes',
     prioridad: 'Media',
-    usuario_id: 5
+    usuario_id: null
   };
 
-  constructor(private ticketService: TicketService) {}
+  constructor(
+    private ticketService: TicketService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    const usuario = this.authService.getUsuario();
+    if (usuario) {
+      this.nuevoTicket.usuario_id = usuario.id;
+      this.nombreUsuario = usuario.nombre || usuario.email;
+    }
+  }
 
   guardarTicket() {
+    if (!this.nuevoTicket.usuario_id) {
+      alert('Debes iniciar sesión para reportar un incidente.');
+      return;
+    }
+
     this.ticketService.createTicket(this.nuevoTicket).subscribe(
       () => {
         alert('Ticket registrado con éxito');
-        this.nuevoTicket = { titulo: '', descripcion: '', categoria: 'Redes', prioridad: 'Media', usuario_id: 5 };
+        const idActual = this.nuevoTicket.usuario_id;
+        this.nuevoTicket = {
+          titulo: '',
+          descripcion: '',
+          categoria: 'Redes',
+          prioridad: 'Media',
+          usuario_id: idActual
+        };
         this.ticketCreado.emit();
       },
       (err) => console.error('Error al crear ticket:', err)

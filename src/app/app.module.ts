@@ -23,7 +23,7 @@ import { TicketService } from './ticket.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [TicketService],
+  providers: [TicketService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
