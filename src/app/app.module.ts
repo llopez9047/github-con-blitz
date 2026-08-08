@@ -38,7 +38,7 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [TicketService, AuthService],
+  providers: [TicketService, UsuarioService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
