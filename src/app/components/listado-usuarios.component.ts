@@ -1,86 +1,117 @@
 import { Component, OnInit } from '@angular/core';
-import { TicketService } from '../ticket.service';
+import { UsuarioService } from '../usuario.service'; // Ajusta la ruta si es necesario
 
 @Component({
   selector: 'app-listado-usuarios',
   template: `
-    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
-      <!-- Formulario de Registro -->
-      <div style="flex: 1 1 300px; background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #cbd5e1;">
-        <h3>👤 Registrar Usuario</h3>
-        <form (ngSubmit)="guardarUsuario()">
-          <div style="margin-bottom: 0.8rem;">
-            <label>Nombre Completo:</label>
-            <input type="text" [(ngModel)]="nuevoUsuario.nombre" name="nombre" required style="width: 100%; padding: 0.5rem;">
+    <div style="max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+      
+      <div style="background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h3 style="margin-top: 0;">👤 Registrar Usuario</h3>
+        <form (ngSubmit)="crearUsuario()" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div>
+            <label style="display: block; margin-bottom: 0.3rem; font-weight: 500;">Nombre Completo:</label>
+            <input type="text" [(ngModel)]="nuevoUsuario.nombre" name="nombre" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
           </div>
-          <div style="margin-bottom: 0.8rem;">
-            <label>Correo:</label>
-            <input type="email" [(ngModel)]="nuevoUsuario.email" name="email" required style="width: 100%; padding: 0.5rem;">
+
+          <div>
+            <label style="display: block; margin-bottom: 0.3rem; font-weight: 500;">Correo Electrónico:</label>
+            <input type="email" [(ngModel)]="nuevoUsuario.email" name="email" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
           </div>
-          <div style="margin-bottom: 0.8rem;">
-            <label>Rol:</label>
-            <select [(ngModel)]="nuevoUsuario.rol" name="rol" style="width: 100%; padding: 0.5rem;">
+
+          <div>
+            <label style="display: block; margin-bottom: 0.3rem; font-weight: 500;">Contraseña:</label>
+            <input type="password" [(ngModel)]="nuevoUsuario.password" name="password" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+          </div>
+
+          <div>
+            <label style="display: block; margin-bottom: 0.3rem; font-weight: 500;">Rol:</label>
+            <select [(ngModel)]="nuevoUsuario.rol" name="rol" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
               <option value="Cliente">Cliente</option>
-              <option value="Tecnico">Técnico</option>
-              <option value="Admin">Administrador</option>
+              <option value="Técnico">Técnico</option>
+              <option value="Administrador">Administrador</option>
             </select>
           </div>
-          <button type="submit" style="background: #16a34a; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer;">
-            Crear Usuario
-          </button>
+
+          <div>
+            <button type="submit" style="background: #00a65a; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: bold;">
+              Crear Usuario
+            </button>
+          </div>
         </form>
       </div>
 
-      <!-- Tabla de Usuarios -->
-      <div style="flex: 2 1 400px; background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #cbd5e1; overflow-x: auto;">
-        <h3>👥 Usuarios Registrados</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+      <div style="background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h3 style="margin-top: 0;">👥 Usuarios Registrados</h3>
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
           <thead>
-            <tr style="background: #f1f5f9; text-align: left;">
-              <th style="padding: 0.5rem;">ID</th>
-              <th style="padding: 0.5rem;">Nombre</th>
-              <th style="padding: 0.5rem;">Correo</th>
-              <th style="padding: 0.5rem;">Rol</th>
+            <tr style="background: #f0f4f8;">
+              <th style="padding: 10px;">ID</th>
+              <th style="padding: 10px;">Nombre</th>
+              <th style="padding: 10px;">Email</th>
+              <th style="padding: 10px;">Rol</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let u of usuarios" style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 0.5rem;">{{ u.id }}</td>
-              <td style="padding: 0.5rem;">{{ u.nombre }}</td>
-              <td style="padding: 0.5rem;">{{ u.email }}</td>
-              <td style="padding: 0.5rem;">{{ u.rol }}</td>
+            <tr *ngFor="let u of usuarios" style="border-bottom: 1px solid #eee;">
+              <td style="padding: 10px;">{{ u.id }}</td>
+              <td style="padding: 10px;">{{ u.nombre }}</td>
+              <!-- Muestra la propiedad u.email del objeto -->
+              <td style="padding: 10px;">{{ u.email }}</td>
+              <td style="padding: 10px;">
+                <span style="background: #e9ecef; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.9em; font-weight: 500;">
+                  {{ u.rol }}
+                </span>
+              </td>
+            </tr>
+
+            <tr *ngIf="usuarios.length === 0">
+              <td colspan="4" style="text-align: center; padding: 15px; color: #666;">
+                No hay usuarios registrados.
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
+
     </div>
   `
 })
 export class ListadoUsuariosComponent implements OnInit {
   usuarios: any[] = [];
-  nuevoUsuario = { nombre: '', email: '', rol: 'Cliente' };
+  
+  nuevoUsuario = { 
+    nombre: '', 
+    email: '', 
+    password: '', 
+    rol: 'Cliente' 
+  };
 
-  constructor(private ticketService: TicketService) {}
+  constructor(private usuarioService: UsuarioService) {}
 
   ngOnInit() {
     this.cargarUsuarios();
   }
 
   cargarUsuarios() {
-    this.ticketService.getUsuarios().subscribe(
+    this.usuarioService.getUsuarios().subscribe(
       (data) => this.usuarios = data,
-      (err) => console.error('Error al cargar usuarios:', err)
+      (err) => console.error('Error al obtener usuarios:', err)
     );
   }
 
-  guardarUsuario() {
-    this.ticketService.registrarUsuario(this.nuevoUsuario).subscribe(
+  crearUsuario() {
+    if (!this.nuevoUsuario.nombre || !this.nuevoUsuario.email || !this.nuevoUsuario.password) {
+      alert('Por favor completa todos los campos requeridos.');
+      return;
+    }
+
+    this.usuarioService.crearUsuario(this.nuevoUsuario).subscribe(
       () => {
-        alert('Usuario creado exitosamente');
-        this.nuevoUsuario = { nombre: '', email: '', rol: 'Cliente' };
-        this.cargarUsuarios();
+        this.nuevoUsuario = { nombre: '', email: '', password: '', rol: 'Cliente' };
+        this.cargarUsuarios(); 
       },
-      (err) => console.error('Error al crear usuario:', err)
+      (err) => console.error('Error al crear usuario desde Angular:', err)
     );
   }
 }
