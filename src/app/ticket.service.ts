@@ -9,12 +9,18 @@ export class TicketService {
 
   constructor(private http: HttpClient) {}
 
-  // 1. AGREGAR ESTE MÉTODO PARA RESOLVER EL ERROR TS2339
   login(credenciales: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/api/auth/login`, credenciales);
   }
 
-  // --- Demás métodos de Tickets y Usuarios ---
+  registrarUsuario(usuario: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/api/usuarios`, usuario);
+  }
+
+  getUsuarios(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/api/usuarios`);
+  }
+
   getTickets(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/api/tickets`);
   }
@@ -33,13 +39,5 @@ export class TicketService {
 
   deleteTicket(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/api/tickets/${id}`);
-  }
-
-  registrarUsuario(usuario: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/api/usuarios`, usuario);
-  }
-
-  getUsuarios(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/api/usuarios`);
   }
 }
