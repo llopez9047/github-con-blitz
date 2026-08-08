@@ -35,7 +35,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [TicketService, AuthService],
