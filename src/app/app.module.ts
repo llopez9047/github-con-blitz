@@ -9,6 +9,7 @@ import { DashboardComponent } from './components/dashboard.component';
 import { RegistroIncidenteComponent } from './components/registro-incidente.component';
 import { ListadoTicketsComponent } from './components/listado-tickets.component';
 import { TicketService } from './ticket.service';
+import { AuthService } from './auth.service';
 
 @NgModule({
   declarations: [
